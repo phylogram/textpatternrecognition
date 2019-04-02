@@ -13,3 +13,5 @@ Use python 3.6 or venv. Nothing more needed for the core, only the usage example
 - adding a replacement functionality,
 - adding alternative search functions instead of regex. RegEx may perform badly in some cases, see: https://flashtext.readthedocs.io/en/latest/  
   - which is not build in the parent class for inheriting. That could cause some troubles later.
+    - also sister class expects also regex match. Changing this in brother class would break brother class functionality. Since sister class is in hierarchical relationship to brother class, it would make sense to reflect this in OO.
+    
