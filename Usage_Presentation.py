@@ -10,19 +10,31 @@ from textpatternrecognition.pattern import PatternParser
 # Looking for *multiline* patterns that may overlap in a left to right and top down perspective
 
 # for example pattern:
-#  | |
-#  ###O
-#  | |
+
+# In[2]:
+
+
+print('''| |
+###O
+| |''')
+
+
 # should be found 3 times in
-#
-#    | |
-#    ###O
-#    | |           | |
-#                  ###O
-#                  | |              | |
-#                                   ###O
-#                                   | |
-#
+
+# In[3]:
+
+
+print('''                                       
+    | |                                
+    ###O                               
+    | |           | |                  
+                  ###O                 
+                  | |              | | 
+                                   ###O
+                                   | | 
+''')
+
+
 # ## Content
 
 # 1. Finding Only One Pattern
@@ -35,13 +47,13 @@ from textpatternrecognition.pattern import PatternParser
 
 # ## Single Line Pattern
 
-# In[2]:
+# In[4]:
 
 
 pattern = 'ab'
 
 
-# In[3]:
+# In[5]:
 
 
 text_lines = [
@@ -53,13 +65,13 @@ text_lines = [
 ]
 
 
-# In[4]:
+# In[6]:
 
 
 pattern_parser = PatternParser(pattern)
 
 
-# In[5]:
+# In[7]:
 
 
 found = 0
@@ -70,21 +82,29 @@ for n, line in enumerate(text_lines):
 print('Found:', found)
 
 
+# Log:
+
+# In[8]:
+
+
+pattern_parser.found_patterns
+
+
 # #### Let's do a regex!
 
-# In[6]:
+# In[9]:
 
 
 regex_pattern = 'a.'
 
 
-# In[7]:
+# In[10]:
 
 
 pattern_parser = PatternParser(regex_pattern, use_regex=True)
 
 
-# In[8]:
+# In[11]:
 
 
 found = 0
@@ -99,7 +119,7 @@ print('Found:', found)
 
 # ### Bug-1.txt
 
-# In[9]:
+# In[12]:
 
 
 bug_1_pattern = '''| |
@@ -110,7 +130,7 @@ print(bug_1_pattern)
 
 # ### landscape1.txt
 
-# In[10]:
+# In[13]:
 
 
 landscape_1_text = '''                                       
@@ -125,7 +145,7 @@ landscape_1_text = '''
 print(landscape_1_text)
 
 
-# In[11]:
+# In[14]:
 
 
 pattern_parser = PatternParser(bug_1_pattern)
@@ -138,22 +158,28 @@ for n, line in enumerate(lines):
 print('Found:', found)
 
 
+# In[15]:
+
+
+pattern_parser.found_patterns
+
+
 # # Finding multiple Patterns
 
-# In[12]:
+# In[16]:
 
 
 additional_pattern_regex = ':-.'
 
 
-# In[13]:
+# In[17]:
 
 
 pattern_parser_1 = PatternParser(bug_1_pattern, use_regex=False)
 pattern_parser_2 = PatternParser(additional_pattern_regex, use_regex=True)
 
 
-# In[14]:
+# In[18]:
 
 
 landscape_1_text = '''                                       
@@ -168,7 +194,7 @@ landscape_1_text = '''
 print(landscape_1_text)
 
 
-# In[15]:
+# In[19]:
 
 
 bugs = 0
@@ -179,20 +205,28 @@ for line in landscape_1_text.splitlines():
 print(f'{bugs} bugs & {smileys} smileys found')
 
 
+# In[20]:
+
+
+print(pattern_parser_1.found_patterns)
+print(pattern_parser_2.found_patterns)
+
+
 # # Performance
 
 # Not really a good performance test – I am just curious.
 # 
 # By the way – this is run on a really slow laptop.
 
-# In[16]:
+# In[21]:
 
 
 from random import choices
 from string import ascii_lowercase
+from timeit import timeit
 
 
-# In[17]:
+# In[22]:
 
 
 def search_for_pattern_in_long_text(pattern='x\ny\nz\n',lines=10**4, line_length=150, use_regex=True):
@@ -204,21 +238,21 @@ def search_for_pattern_in_long_text(pattern='x\ny\nz\n',lines=10**4, line_length
     return found
 
 
-# In[18]:
+# In[23]:
 
 
 # Once for fun
 search_for_pattern_in_long_text()
 
 
-# In[19]:
+# In[24]:
 
-# Check for jupyter / ipython compatibility
+
 #get_ipython().run_cell_magic('timeit', '', 'search_for_pattern_in_long_text(use_regex=True)')
 
 
-# In[20]:
+# In[25]:
 
-# Check for jupyter / ipython compatibility
+
 #get_ipython().run_cell_magic('timeit', '', 'search_for_pattern_in_long_text(use_regex=False)')
 
